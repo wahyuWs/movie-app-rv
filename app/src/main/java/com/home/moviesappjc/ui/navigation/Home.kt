@@ -51,6 +51,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -65,6 +66,48 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen() {
+    val lattoFamily =  FontFamily(
+        Font(R.font.lato, FontWeight.Normal)
+    )
+
+    Column(
+        modifier = Modifier
+            .background(ColorBackground)
+            .fillMaxSize()
+    ){
+        TitleSection(lattoFamily)
+        PlayingSection(lattoFamily)
+        TrendingSection(
+            items = listOf(
+                Movie(
+                    R.drawable.home_1,
+                    "Avengers: Endgame",
+                    8.4
+                ),
+                Movie(
+                    R.drawable.home_2,
+                    "Star Wars: The Last Jedi",
+                    7.0
+                ),
+                Movie(
+                    R.drawable.home_3,
+                    "Tenet",
+                    7.6
+                ),
+                Movie(
+                    R.drawable.home_4,
+                    "Wonder Woman 1984",
+                    7.6
+                ),
+            )
+            , lattoFamily
+        )
+    }
+}
+
+@Preview(device = "spec:width=1080px,height=2340px,dpi=360", showSystemUi = true)
+@Composable
+fun PrevieDesign(){
     val lattoFamily =  FontFamily(
         Font(R.font.lato, FontWeight.Normal)
     )
