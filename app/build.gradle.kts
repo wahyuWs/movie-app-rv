@@ -70,4 +70,7 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.5")
     //animatedlist
     implementation("com.github.SmartToolFactory:Compose-AnimatedList:0.6.1")
+    //tablayout
+    implementation("com.google.accompanist:accompanist-pager:0.13.0")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.13.0")
 }
