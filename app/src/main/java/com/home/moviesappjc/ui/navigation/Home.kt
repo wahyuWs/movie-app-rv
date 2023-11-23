@@ -80,24 +80,24 @@ fun HomeScreen() {
         TrendingSection(
             items = listOf(
                 Movie(
-                    R.drawable.home_1,
-                    "Avengers: Endgame",
-                    8.4
+                    image = R.drawable.home_1,
+                    title = "Avengers: Endgame",
+                    rate = 8.4
                 ),
                 Movie(
-                    R.drawable.home_2,
-                    "Star Wars: The Last Jedi",
-                    7.0
+                    image = R.drawable.home_2,
+                    title = "Star Wars: The Last Jedi",
+                    rate =7.0
                 ),
                 Movie(
-                    R.drawable.home_3,
-                    "Tenet",
-                    7.6
+                    image = R.drawable.home_3,
+                    title = "Tenet",
+                    rate =7.6
                 ),
                 Movie(
-                    R.drawable.home_4,
-                    "Wonder Woman 1984",
-                    7.6
+                    image = R.drawable.home_4,
+                    title = "Wonder Woman 1984",
+                    rate =7.6
                 ),
             )
             , lattoFamily
@@ -122,24 +122,24 @@ fun PrevieDesign(){
         TrendingSection(
             items = listOf(
                 Movie(
-                    R.drawable.home_1,
-                    "Avengers: Endgame",
-                    8.4
+                    image = R.drawable.home_1,
+                    title = "Avengers: Endgame",
+                    rate = 8.4
                 ),
                 Movie(
-                    R.drawable.home_2,
-                    "Star Wars: The Last Jedi",
-                    7.0
+                    image = R.drawable.home_2,
+                    title = "Star Wars: The Last Jedi",
+                    rate =7.0
                 ),
                 Movie(
-                    R.drawable.home_3,
-                    "Tenet",
-                    7.6
+                    image = R.drawable.home_3,
+                    title = "Tenet",
+                    rate =7.6
                 ),
                 Movie(
-                    R.drawable.home_4,
-                    "Wonder Woman 1984",
-                    7.6
+                    image = R.drawable.home_4,
+                    title = "Wonder Woman 1984",
+                    rate =7.6
                 ),
             )
             , lattoFamily

@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -17,6 +19,7 @@ import androidx.compose.material.Tab
 import androidx.compose.material.TabRowDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -31,6 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -160,54 +164,84 @@ fun PreviewPlay() {
             pagerState = pagerState,
             itemsMovie = listOf(
                 Movie(
-                    R.drawable.soul,
-                    "Soul (2020)"
+                    image = R.drawable.soul,
+                    title = "Soul",
+                    year = "(2020)",
+                    width = 154.dp,
+                    height = 184.dp
                 ),
                 Movie(
-                    R.drawable.knives_out_2019,
-                    "Knives Out (2019)"
+                    image = R.drawable.knives_out_2019,
+                    title = "Knives Out",
+                    year = "(2019)",
+                    width = 154.dp,
+                    height = 160.dp
                 ),
                 Movie(
-                    R.drawable.mulan_2020,
-                    "Mulan (2020)"
+                    image = R.drawable.mulan_2020,
+                    title = "Mulan",
+                    year = "(2020)",
+                    width = 154.dp,
+                    height = 184.dp
                 ),
                 Movie(
-                    R.drawable.onward_2020,
-                    "Onward (2020)"
+                    image = R.drawable.onward_2020,
+                    title = "Onward",
+                    year = "(2020)",
+                    width = 154.dp,
+                    height = 160.dp
                 ),
                 Movie(
-                    R.drawable.birds_of_prey_2020,
-                    "Birds of Prey (2020)"
+                    image = R.drawable.birds_of_prey_2020,
+                    title = "Birds of Prey",
+                    year = "(2020)",
+                    width = 154.dp,
+                    height = 184.dp
                 ),
                 Movie(
-                    R.drawable.now_you_see_me2_2016,
-                    "Now You See Me 2 (2016)"
+                    image = R.drawable.now_you_see_me2_2016,
+                    title = "Now You See Me 2",
+                    year = "(2016)",
+                    width = 154.dp,
+                    height = 160.dp
                 )
             ),
             itemsSeries = listOf(
                 Movie(
-                    R.drawable.stranger_things,
-                    "Stranger Things"
+                    image = R.drawable.stranger_things,
+                    title = "Stranger Things",
+                    width = 154.dp,
+                    height = 184.dp
                 ),
                 Movie(
-                    R.drawable.the_flash,
-                    "The Flash"
+                    image = R.drawable.the_flash,
+                    title = "The Flash",
+                    width = 154.dp,
+                    height = 160.dp
                 ),
                 Movie(
-                    R.drawable.doctor_who,
-                    "Doctor Who"
+                    image = R.drawable.doctor_who,
+                    title = "Doctor Who",
+                    width = 154.dp,
+                    height = 184.dp
                 ),
                 Movie(
-                    R.drawable.money_heist,
-                    "Money Heist"
+                    image = R.drawable.money_heist,
+                    title = "Money Heist",
+                    width = 154.dp,
+                    height = 160.dp
                 ),
                 Movie(
-                    R.drawable.breaking_bad,
-                    "Breaking Bad"
+                    image = R.drawable.breaking_bad,
+                    title = "Breaking Bad",
+                    width = 154.dp,
+                    height = 184.dp
                 ),
                 Movie(
-                    R.drawable.sherlock,
-                    "Sherlock"
+                    image = R.drawable.sherlock,
+                    title = "Sherlock",
+                    width = 154.dp,
+                    height = 160.dp
                 )
             ),
             fontFamily = lattoFamily
@@ -307,7 +341,8 @@ fun TabContent(pagerState: PagerState, itemsMovie: List<Movie>, itemsSeries: Lis
     HorizontalPager(
         state = pagerState,
         modifier = Modifier
-            .padding(top = 24.dp, start = 24.dp, bottom = 80.dp)
+            .padding(top = 24.dp, start = 24.dp, end = 24.dp, bottom = 80.dp)
+            .fillMaxSize()
     ) { index ->
         when (index) {
             0 -> {
@@ -356,31 +391,35 @@ fun ListMovie(items: List<Movie>, fontFamily: FontFamily) {
         modifier = Modifier
             .fillMaxSize(),
         columns = StaggeredGridCells.Fixed(2),
-        content = {
-            items(items) {item ->
-                Column(
-                    modifier = Modifier
-                        .padding(end = 20.dp, bottom = 20.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = item.image),
-                        contentDescription = item.title,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .padding(bottom = 8.dp)
-                            .fillMaxSize()
-                            .clip(RoundedCornerShape(20.dp))
-                    )
-                    Text(
-                        text = item.title,
-                        fontSize = 16.sp,
-                        fontFamily = fontFamily,
-                        color = Color.White
-                    )
+        horizontalArrangement = Arrangement.spacedBy(18.dp),
+        verticalItemSpacing = 18.dp
+    ){
+        items(items) {item ->
+            Column{
+                val modifier = if ((item.width != null) && (item.height != null)){
+                    Modifier
+                        .width(item.width!!)
+                        .height(item.height!!)
+                }else {
+                    Modifier.fillMaxSize()
                 }
+                Image(
+                    painter = painterResource(id = item.image),
+                    contentDescription = item.title,
+                    contentScale = ContentScale.Crop,
+                    modifier = modifier
+                        .padding(bottom = 8.dp)
+                        .clip(RoundedCornerShape(20.dp))
+                )
+                Text(
+                    text = item.title,
+                    fontSize = 16.sp,
+                    fontFamily = fontFamily,
+                    color = Color.White
+                )
             }
         }
-    )
+    }
 }
 
 @Composable
@@ -389,29 +428,33 @@ fun ListSeries(items: List<Movie>, fontFamily: FontFamily) {
         modifier = Modifier
             .fillMaxSize(),
         columns = StaggeredGridCells.Fixed(2),
-        content = {
-            items(items) {item ->
-                Column(
-                    modifier = Modifier
-                        .padding(end = 20.dp, bottom = 20.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = item.image),
-                        contentDescription = item.title,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .padding(bottom = 8.dp)
-                            .fillMaxSize()
-                            .clip(RoundedCornerShape(20.dp))
-                    )
-                    Text(
-                        text = item.title,
-                        fontSize = 16.sp,
-                        fontFamily = fontFamily,
-                        color = Color.White
-                    )
+        horizontalArrangement = Arrangement.spacedBy(18.dp),
+        verticalItemSpacing = 18.dp
+    ){
+        items(items) {item ->
+            Column {
+                val modifier = if ((item.width != null) && (item.height != null)){
+                    Modifier
+                        .width(item.width!!)
+                        .height(item.height!!)
+                }else {
+                    Modifier.fillMaxSize()
                 }
+                Image(
+                    painter = painterResource(id = item.image),
+                    contentDescription = item.title,
+                    contentScale = ContentScale.Crop,
+                    modifier = modifier
+                        .padding(bottom = 8.dp)
+                        .clip(RoundedCornerShape(20.dp))
+                )
+                Text(
+                    text = item.title,
+                    fontSize = 16.sp,
+                    fontFamily = fontFamily,
+                    color = Color.White
+                )
             }
         }
-    )
+    }
 }

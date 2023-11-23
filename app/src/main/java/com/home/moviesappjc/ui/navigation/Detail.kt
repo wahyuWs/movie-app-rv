@@ -76,16 +76,16 @@ fun PreviewDetail() {
             fontFamily = lattoFamily,
             items = listOf(
                 Movie(
-                    R.drawable.star_wars_the_rise_of_skywalker_2019,
-                    "Star Wars: The Rise of Skywalker (2019)"
+                    image = R.drawable.star_wars_the_rise_of_skywalker_2019,
+                    title = "Star Wars: The Rise of Skywalker (2019)"
                 ),
                 Movie(
-                    R.drawable.star_wars_the_force_awakens_2015,
-                    "Star Wars: The Force Awakens (2015)"
+                    image = R.drawable.star_wars_the_force_awakens_2015,
+                    title = "Star Wars: The Force Awakens (2015)"
                 ),
                 Movie(
-                    R.drawable.rogue_one_a_star_wars_story_2016,
-                    "Rogue One: A Star Wars Story (2016)"
+                    image = R.drawable.rogue_one_a_star_wars_story_2016,
+                    title = "Rogue One: A Star Wars Story (2016)"
                 ),
             )
         )
