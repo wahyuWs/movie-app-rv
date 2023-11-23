@@ -35,6 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.home.moviesappjc.ui.navigation.Detail
 import com.home.moviesappjc.ui.navigation.HomeScreen
 import com.home.moviesappjc.ui.navigation.Play
 import com.home.moviesappjc.ui.theme.ColorBackground
@@ -51,7 +52,7 @@ class MainActivity : ComponentActivity() {
                 Box(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    Play()
+                    Detail()
                     BottomSection(
                         items = listOf(
                             R.drawable.home_page_icon,
