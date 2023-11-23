@@ -1,27 +1,17 @@
 package com.home.moviesappjc.ui.navigation
 
-import android.text.Layout
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
 import androidx.compose.material.ScrollableTabRow
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRowDefaults
@@ -29,8 +19,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material.TabRow
-import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -43,16 +31,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -68,11 +52,16 @@ import com.home.moviesappjc.ui.theme.Linear
 import com.home.moviesappjc.ui.theme.SearchColor
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun Play() {
     val lattoFamily =  FontFamily(
         Font(R.font.lato, FontWeight.Normal)
     )
+    val itemsTab = listOf(
+        "Movies", "Tv Series", "Documentary", "Sports"
+    )
+    val pagerState = rememberPagerState(pageCount = itemsTab.size)
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -80,6 +69,67 @@ fun Play() {
     ) {
         TitleSection1(fontFamily = lattoFamily)
         SearchBar()
+        TabSection(
+            items = itemsTab,
+            pagerState = pagerState,
+            fontFamily = lattoFamily
+        )
+        TabContent(
+            pagerState = pagerState,
+            itemsMovie = listOf(
+                Movie(
+                    R.drawable.soul,
+                    "Soul (2020)"
+                ),
+                Movie(
+                    R.drawable.knives_out_2019,
+                    "Knives Out (2019)"
+                ),
+                Movie(
+                    R.drawable.mulan_2020,
+                    "Mulan (2020)"
+                ),
+                Movie(
+                    R.drawable.onward_2020,
+                    "Onward (2020)"
+                ),
+                Movie(
+                    R.drawable.birds_of_prey_2020,
+                    "Birds of Prey (2020)"
+                ),
+                Movie(
+                    R.drawable.now_you_see_me2_2016,
+                    "Now You See Me 2 (2016)"
+                )
+            ),
+            itemsSeries = listOf(
+                Movie(
+                    R.drawable.stranger_things,
+                    "Stranger Things"
+                ),
+                Movie(
+                    R.drawable.the_flash,
+                    "The Flash"
+                ),
+                Movie(
+                    R.drawable.doctor_who,
+                    "Doctor Who"
+                ),
+                Movie(
+                    R.drawable.money_heist,
+                    "Money Heist"
+                ),
+                Movie(
+                    R.drawable.breaking_bad,
+                    "Breaking Bad"
+                ),
+                Movie(
+                    R.drawable.sherlock,
+                    "Sherlock"
+                )
+            ),
+            fontFamily = lattoFamily
+        )
     }
 }
 
@@ -106,7 +156,62 @@ fun PreviewPlay() {
             pagerState = pagerState,
             fontFamily = lattoFamily
         )
-//        TabContent(pagerState = pagerState)
+        TabContent(
+            pagerState = pagerState,
+            itemsMovie = listOf(
+                Movie(
+                    R.drawable.soul,
+                    "Soul (2020)"
+                ),
+                Movie(
+                    R.drawable.knives_out_2019,
+                    "Knives Out (2019)"
+                ),
+                Movie(
+                    R.drawable.mulan_2020,
+                    "Mulan (2020)"
+                ),
+                Movie(
+                    R.drawable.onward_2020,
+                    "Onward (2020)"
+                ),
+                Movie(
+                    R.drawable.birds_of_prey_2020,
+                    "Birds of Prey (2020)"
+                ),
+                Movie(
+                    R.drawable.now_you_see_me2_2016,
+                    "Now You See Me 2 (2016)"
+                )
+            ),
+            itemsSeries = listOf(
+                Movie(
+                    R.drawable.stranger_things,
+                    "Stranger Things"
+                ),
+                Movie(
+                    R.drawable.the_flash,
+                    "The Flash"
+                ),
+                Movie(
+                    R.drawable.doctor_who,
+                    "Doctor Who"
+                ),
+                Movie(
+                    R.drawable.money_heist,
+                    "Money Heist"
+                ),
+                Movie(
+                    R.drawable.breaking_bad,
+                    "Breaking Bad"
+                ),
+                Movie(
+                    R.drawable.sherlock,
+                    "Sherlock"
+                )
+            ),
+            fontFamily = lattoFamily
+        )
     }
 }
 
@@ -118,19 +223,20 @@ fun TitleSection1(fontFamily: FontFamily) {
         fontFamily = fontFamily,
         color = Color.White,
         modifier = Modifier
-            .padding(top = 36.dp, start = 24.dp, end = 68.dp, bottom = 20.dp)
             .fillMaxWidth()
+            .padding(top = 36.dp, start = 24.dp, end = 74.dp, bottom = 20.dp)
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBar() {
-    var text by remember { mutableStateOf("Sherlock Holmes") }
+    var text by remember { mutableStateOf("") }
 
     TextField(
         value = text,
         onValueChange = { text = it },
+        placeholder = { Text(text = "Sherlock Holmes") },
         leadingIcon = {
             Icon(
                 imageVector = Icons.Filled.Search,
@@ -172,12 +278,10 @@ fun TabSection(items: List<String>, pagerState: PagerState, fontFamily: FontFami
         modifier = Modifier
             .padding(start = 24.dp)
             .fillMaxWidth()
+            .wrapContentHeight()
     ) {
         items.forEachIndexed { index, item ->
             Tab(
-                modifier = Modifier
-                    .wrapContentSize()
-                    .padding(0.dp),
                 selected = pagerState.currentPage == index,
                 onClick = {
                     scope.launch {
@@ -199,17 +303,115 @@ fun TabSection(items: List<String>, pagerState: PagerState, fontFamily: FontFami
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun TabContent(pagerState: PagerState, items: Movie) {
-    HorizontalPager(state = pagerState) { index ->
+fun TabContent(pagerState: PagerState, itemsMovie: List<Movie>, itemsSeries: List<Movie>, fontFamily: FontFamily) {
+    HorizontalPager(
+        state = pagerState,
+        modifier = Modifier
+            .padding(top = 24.dp, start = 24.dp, bottom = 80.dp)
+    ) { index ->
         when (index) {
-            0 -> {}
-            1 -> {}
-            2 -> {}
-            3 -> {}
+            0 -> {
+                ListMovie(items = itemsMovie, fontFamily = fontFamily)
+            }
+            1 -> {
+                ListSeries(items = itemsSeries, fontFamily = fontFamily)
+            }
+            2 -> {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Not finished yet",
+                        color = Color.White,
+                        fontFamily = fontFamily,
+                        fontSize = 22.sp
+                    )
+                }
+            }
+            3 -> {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Not finished yet",
+                        color = Color.White,
+                        fontFamily = fontFamily,
+                        fontSize = 22.sp
+                    )
+                }
+            }
         }
-        
     }
 }
 
+@Composable
+fun ListMovie(items: List<Movie>, fontFamily: FontFamily) {
+    LazyVerticalStaggeredGrid(
+        modifier = Modifier
+            .fillMaxSize(),
+        columns = StaggeredGridCells.Fixed(2),
+        content = {
+            items(items) {item ->
+                Column(
+                    modifier = Modifier
+                        .padding(end = 20.dp, bottom = 20.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = item.image),
+                        contentDescription = item.title,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .padding(bottom = 8.dp)
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(20.dp))
+                    )
+                    Text(
+                        text = item.title,
+                        fontSize = 16.sp,
+                        fontFamily = fontFamily,
+                        color = Color.White
+                    )
+                }
+            }
+        }
+    )
+}
 
-
+@Composable
+fun ListSeries(items: List<Movie>, fontFamily: FontFamily) {
+    LazyVerticalStaggeredGrid(
+        modifier = Modifier
+            .fillMaxSize(),
+        columns = StaggeredGridCells.Fixed(2),
+        content = {
+            items(items) {item ->
+                Column(
+                    modifier = Modifier
+                        .padding(end = 20.dp, bottom = 20.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = item.image),
+                        contentDescription = item.title,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .padding(bottom = 8.dp)
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(20.dp))
+                    )
+                    Text(
+                        text = item.title,
+                        fontSize = 16.sp,
+                        fontFamily = fontFamily,
+                        color = Color.White
+                    )
+                }
+            }
+        }
+    )
+}

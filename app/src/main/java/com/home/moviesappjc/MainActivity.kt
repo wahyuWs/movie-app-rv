@@ -61,6 +61,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
                             .fillMaxWidth()
+                            .background(ColorBackground)
                             .padding(vertical = 18.dp)
                     )
                 }
