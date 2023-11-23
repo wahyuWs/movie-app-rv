@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
@@ -42,6 +44,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.home.moviesappjc.R
+import com.home.moviesappjc.ui.model.Movie
 import com.home.moviesappjc.ui.theme.BoxBackground
 import com.home.moviesappjc.ui.theme.BoxTextColor
 import com.home.moviesappjc.ui.theme.ColorBackground
@@ -68,6 +71,23 @@ fun PreviewDetail() {
         DescriptionSection(
             fontFamily = lattoFamily,
             description = "Rey (Daisy Ridley) finally manages to find the legendary Jedi knight, Luke Skywalker (Mark Hamill) on an island with a magical aura. The heroes of The Force Awakens including Leia, Finn. \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\""
+        )
+        RelatedMovieSection(
+            fontFamily = lattoFamily,
+            items = listOf(
+                Movie(
+                    R.drawable.star_wars_the_rise_of_skywalker_2019,
+                    "Star Wars: The Rise of Skywalker (2019)"
+                ),
+                Movie(
+                    R.drawable.star_wars_the_force_awakens_2015,
+                    "Star Wars: The Force Awakens (2015)"
+                ),
+                Movie(
+                    R.drawable.rogue_one_a_star_wars_story_2016,
+                    "Rogue One: A Star Wars Story (2016)"
+                ),
+            )
         )
     }
 }
@@ -310,5 +330,53 @@ fun DescriptionSection(fontFamily: FontFamily, description: String) {
                     .clickable { expandedText = true }
             )
         }
+    }
+}
+
+@Composable
+fun RelatedMovieSection(fontFamily: FontFamily, items: List<Movie>) {
+    Text(
+        text = "Related Movies",
+        fontFamily = fontFamily,
+        fontSize = 16.sp,
+        color = Color.White,
+        modifier = Modifier
+            .padding(start = 24.dp, top = 20.dp, bottom = 16.dp)
+    )
+    LazyRow(
+        modifier = Modifier
+            .padding(start = 24.dp, end = 24.dp, bottom = 29.dp)
+            .fillMaxWidth()
+            .wrapContentHeight()
+    ) {
+        items(items) { item ->
+            ItemRelatedMovie(item = item, fontFamily = fontFamily)
+        }
+    }
+}
+
+@Composable
+fun ItemRelatedMovie(item: Movie, fontFamily: FontFamily) {
+    Column(
+        modifier = Modifier
+            .padding(end = 16.dp)
+            .width(142.dp)
+    ) {
+        Image(
+            painter = painterResource(id = item.image),
+            contentDescription = item.title,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .padding(bottom = 12.dp)
+                .fillMaxWidth()
+                .height(106.dp)
+                .clip(RoundedCornerShape(20.dp))
+        )
+        Text(
+            text = item.title,
+            fontFamily = fontFamily,
+            fontSize = 12.sp,
+            color = Color.White
+        )
     }
 }
