@@ -14,7 +14,9 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ScrollableTabRow
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRowDefaults
@@ -87,128 +89,46 @@ fun Play() {
             pagerState = pagerState,
             itemsMovie = listOf(
                 Movie(
-                    R.drawable.soul,
-                    "Soul (2020)"
-                ),
-                Movie(
-                    R.drawable.knives_out_2019,
-                    "Knives Out (2019)"
-                ),
-                Movie(
-                    R.drawable.mulan_2020,
-                    "Mulan (2020)"
-                ),
-                Movie(
-                    R.drawable.onward_2020,
-                    "Onward (2020)"
-                ),
-                Movie(
-                    R.drawable.birds_of_prey_2020,
-                    "Birds of Prey (2020)"
-                ),
-                Movie(
-                    R.drawable.now_you_see_me2_2016,
-                    "Now You See Me 2 (2016)"
-                )
-            ),
-            itemsSeries = listOf(
-                Movie(
-                    R.drawable.stranger_things,
-                    "Stranger Things"
-                ),
-                Movie(
-                    R.drawable.the_flash,
-                    "The Flash"
-                ),
-                Movie(
-                    R.drawable.doctor_who,
-                    "Doctor Who"
-                ),
-                Movie(
-                    R.drawable.money_heist,
-                    "Money Heist"
-                ),
-                Movie(
-                    R.drawable.breaking_bad,
-                    "Breaking Bad"
-                ),
-                Movie(
-                    R.drawable.sherlock,
-                    "Sherlock"
-                )
-            ),
-            fontFamily = lattoFamily
-        )
-    }
-}
-
-@OptIn(ExperimentalPagerApi::class)
-@Preview(device = "spec:width=1080px,height=1920px,dpi=480")
-@Composable()
-fun PreviewPlay() {
-    val lattoFamily =  FontFamily(
-        Font(R.font.lato, FontWeight.Normal)
-    )
-    val itemsTab = listOf(
-        "Movies", "Tv Series", "Documentary", "Sports"
-    )
-    val pagerState = rememberPagerState(pageCount = itemsTab.size)
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(ColorBackground)
-    ) {
-        TitleSection1(fontFamily = lattoFamily)
-        SearchBar()
-        TabSection(
-            items = itemsTab,
-            pagerState = pagerState,
-            fontFamily = lattoFamily
-        )
-        TabContent(
-            pagerState = pagerState,
-            itemsMovie = listOf(
-                Movie(
                     image = R.drawable.soul,
                     title = "Soul",
                     year = "(2020)",
                     width = 154.dp,
-                    height = 184.dp
+                    height = 250.dp
                 ),
                 Movie(
                     image = R.drawable.knives_out_2019,
                     title = "Knives Out",
                     year = "(2019)",
                     width = 154.dp,
-                    height = 160.dp
+                    height = 200.dp
                 ),
                 Movie(
                     image = R.drawable.mulan_2020,
                     title = "Mulan",
                     year = "(2020)",
                     width = 154.dp,
-                    height = 184.dp
+                    height = 250.dp
                 ),
                 Movie(
                     image = R.drawable.onward_2020,
                     title = "Onward",
                     year = "(2020)",
                     width = 154.dp,
-                    height = 160.dp
+                    height = 200.dp
                 ),
                 Movie(
                     image = R.drawable.birds_of_prey_2020,
                     title = "Birds of Prey",
                     year = "(2020)",
                     width = 154.dp,
-                    height = 184.dp
+                    height = 250.dp
                 ),
                 Movie(
                     image = R.drawable.now_you_see_me2_2016,
                     title = "Now You See Me 2",
                     year = "(2016)",
                     width = 154.dp,
-                    height = 160.dp
+                    height = 200.dp
                 )
             ),
             itemsSeries = listOf(
@@ -216,37 +136,37 @@ fun PreviewPlay() {
                     image = R.drawable.stranger_things,
                     title = "Stranger Things",
                     width = 154.dp,
-                    height = 184.dp
+                    height = 250.dp
                 ),
                 Movie(
                     image = R.drawable.the_flash,
                     title = "The Flash",
                     width = 154.dp,
-                    height = 160.dp
+                    height = 200.dp
                 ),
                 Movie(
                     image = R.drawable.doctor_who,
                     title = "Doctor Who",
                     width = 154.dp,
-                    height = 184.dp
+                    height = 250.dp
                 ),
                 Movie(
                     image = R.drawable.money_heist,
                     title = "Money Heist",
                     width = 154.dp,
-                    height = 160.dp
+                    height = 200.dp
                 ),
                 Movie(
                     image = R.drawable.breaking_bad,
                     title = "Breaking Bad",
                     width = 154.dp,
-                    height = 184.dp
+                    height = 250.dp
                 ),
                 Movie(
                     image = R.drawable.sherlock,
                     title = "Sherlock",
                     width = 154.dp,
-                    height = 160.dp
+                    height = 200.dp
                 )
             ),
             fontFamily = lattoFamily
@@ -317,7 +237,6 @@ fun TabSection(items: List<String>, pagerState: PagerState, fontFamily: FontFami
         modifier = Modifier
             .padding(start = 24.dp)
             .fillMaxWidth()
-            .wrapContentHeight()
     ) {
         items.forEachIndexed { index, item ->
             Tab(
@@ -347,7 +266,7 @@ fun TabContent(pagerState: PagerState, itemsMovie: List<Movie>, itemsSeries: Lis
         state = pagerState,
         modifier = Modifier
             .padding(top = 24.dp, start = 24.dp, end = 24.dp, bottom = 80.dp)
-            .fillMaxSize()
+            .fillMaxWidth()
     ) { index ->
         when (index) {
             0 -> {
@@ -403,7 +322,7 @@ fun ListMovie(items: List<Movie>, fontFamily: FontFamily) {
             Column{
                 val modifier = if ((item.width != null) && (item.height != null)){
                     Modifier
-                        .width(item.width!!)
+                        .fillMaxWidth()
                         .height(item.height!!)
                 }else {
                     Modifier.fillMaxSize()
@@ -411,7 +330,7 @@ fun ListMovie(items: List<Movie>, fontFamily: FontFamily) {
                 Image(
                     painter = painterResource(id = item.image),
                     contentDescription = item.title,
-                    contentScale = ContentScale.Crop,
+                    contentScale = ContentScale.FillBounds,
                     modifier = modifier
                         .padding(bottom = 8.dp)
                         .clip(RoundedCornerShape(20.dp))
@@ -451,7 +370,7 @@ fun ListSeries(items: List<Movie>, fontFamily: FontFamily) {
             Column {
                 val modifier = if ((item.width != null) && (item.height != null)){
                     Modifier
-                        .width(item.width!!)
+                        .fillMaxWidth()
                         .height(item.height!!)
                 }else {
                     Modifier.fillMaxSize()
@@ -459,7 +378,7 @@ fun ListSeries(items: List<Movie>, fontFamily: FontFamily) {
                 Image(
                     painter = painterResource(id = item.image),
                     contentDescription = item.title,
-                    contentScale = ContentScale.Crop,
+                    contentScale = ContentScale.FillBounds,
                     modifier = modifier
                         .padding(bottom = 8.dp)
                         .clip(RoundedCornerShape(20.dp))

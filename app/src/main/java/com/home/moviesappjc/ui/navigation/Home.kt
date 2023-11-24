@@ -1,125 +1,72 @@
 package com.home.moviesappjc.ui.navigation
 
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.animateScrollBy
-import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.home.moviesappjc.R
 import com.home.moviesappjc.ui.model.Movie
 import com.home.moviesappjc.ui.theme.ColorBackground
-import com.home.moviesappjc.ui.theme.CustomTransparent
 import com.home.moviesappjc.ui.theme.Linear
 import com.smarttoolfactory.animatedlist.AnimatedInfiniteLazyRow
 import com.smarttoolfactory.animatedlist.model.AnimationProgress
 import kotlinx.coroutines.launch
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navControllerHome: NavController) {
     val lattoFamily =  FontFamily(
         Font(R.font.lato, FontWeight.Normal)
     )
-
+    val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
+            .padding(bottom = 80.dp)
             .background(ColorBackground)
             .fillMaxSize()
+            .verticalScroll(scrollState)
     ){
         TitleSection(lattoFamily)
         PlayingSection(lattoFamily)
         TrendingSection(
-            items = listOf(
-                Movie(
-                    image = R.drawable.home_1,
-                    title = "Avengers: Endgame",
-                    rate = 8.4
-                ),
-                Movie(
-                    image = R.drawable.home_2,
-                    title = "Star Wars: The Last Jedi",
-                    rate =7.0
-                ),
-                Movie(
-                    image = R.drawable.home_3,
-                    title = "Tenet",
-                    rate =7.6
-                ),
-                Movie(
-                    image = R.drawable.home_4,
-                    title = "Wonder Woman 1984",
-                    rate =7.6
-                ),
-            )
-            , lattoFamily
-        )
-    }
-}
-
-@Preview(device = "spec:width=1080px,height=2340px,dpi=360", showSystemUi = true)
-@Composable
-fun PrevieDesign(){
-    val lattoFamily =  FontFamily(
-        Font(R.font.lato, FontWeight.Normal)
-    )
-
-    Column(
-        modifier = Modifier
-            .background(ColorBackground)
-            .fillMaxSize()
-    ){
-        TitleSection(lattoFamily)
-        PlayingSection(lattoFamily)
-        TrendingSection(
+            navController = navControllerHome,
             items = listOf(
                 Movie(
                     image = R.drawable.home_1,
@@ -184,7 +131,7 @@ fun PlayingSection(fontFamily: FontFamily){
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(240.dp)
+                .height(260.dp)
         )
         Row(
             modifier = Modifier
@@ -222,7 +169,7 @@ fun PlayingSection(fontFamily: FontFamily){
 }
 
 @Composable
-fun TrendingSection(items: List<Movie>, fontFamily: FontFamily){
+fun TrendingSection(navController: NavController, items: List<Movie>, fontFamily: FontFamily){
     Column(
         modifier = Modifier
             .padding(top = 36.dp, start = 24.dp)
@@ -243,13 +190,13 @@ fun TrendingSection(items: List<Movie>, fontFamily: FontFamily){
             visibleItemCount = 2,
             spaceBetweenItems = 8.dp
         ) {animationProgress, index, item, size, lazyListState ->
-            ItemListTrending(movie = item, fontFamily = fontFamily, size, animationProgress, lazyListState)
+            ItemListTrending(navController = navController, movie = item, fontFamily = fontFamily, size, animationProgress, lazyListState)
         }
     }
 }
 
 @Composable
-fun ItemListTrending(movie: Movie, fontFamily: FontFamily, size: Dp, animationProgress: AnimationProgress, lazyListState: LazyListState) {
+fun ItemListTrending(navController: NavController,movie: Movie, fontFamily: FontFamily, size: Dp, animationProgress: AnimationProgress, lazyListState: LazyListState) {
     val coroutineScope = rememberCoroutineScope()
     val scale = animationProgress.scale
 
@@ -272,12 +219,13 @@ fun ItemListTrending(movie: Movie, fontFamily: FontFamily, size: Dp, animationPr
             coroutineScope.launch {
                 lazyListState.animateScrollBy(animationProgress.distanceToSelector)
             }
+            navController.navigate("DetailScreen")
         }
     ){
         Image(
             painter = painterResource(id = movie.image),
             contentDescription = movie.title,
-            contentScale = ContentScale.Crop,
+            contentScale = ContentScale.FillBounds,
             modifier = Modifier
                 .fillMaxSize()
                 .clip(RoundedCornerShape(30.dp))

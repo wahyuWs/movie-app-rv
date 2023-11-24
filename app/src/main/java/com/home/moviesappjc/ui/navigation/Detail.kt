@@ -1,6 +1,7 @@
 package com.home.moviesappjc.ui.navigation
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -18,7 +19,9 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -55,18 +58,15 @@ import com.home.moviesappjc.ui.theme.TextColorDetail
 
 @Composable
 fun Detail() {
-}
-
-@Preview(device = "id:pixel_5")
-@Composable
-fun PreviewDetail() {
     val lattoFamily =  FontFamily(
         Font(R.font.lato, FontWeight.Normal)
     )
+    val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(ColorBackground)
+            .verticalScroll(scrollState)
     ) {
         MediaPlayerSection()
         TitleAndDetailSection(fontFamily = lattoFamily)
@@ -108,7 +108,7 @@ fun MediaPlayerSection() {
         Image(
             painter = painterResource(id = R.drawable.star_war_full),
             contentDescription = "Media Player",
-            contentScale = ContentScale.Crop,
+            contentScale = ContentScale.FillBounds,
             modifier = Modifier
                 .fillMaxSize()
         )
@@ -305,7 +305,7 @@ fun DescriptionSection(fontFamily: FontFamily, description: String) {
             Text(
                 text = description,
                 fontFamily = fontFamily,
-                fontSize = 12.sp,
+                fontSize = 13.sp,
                 color = TextColorDetail
             )
             Text(
@@ -324,7 +324,7 @@ fun DescriptionSection(fontFamily: FontFamily, description: String) {
                     description
                 },
                 fontFamily = fontFamily,
-                fontSize = 12.sp,
+                fontSize = 13.sp,
                 color = TextColorDetail
             )
             Text(
@@ -366,16 +366,16 @@ fun ItemRelatedMovie(item: Movie, fontFamily: FontFamily) {
     Column(
         modifier = Modifier
             .padding(end = 16.dp)
-            .width(142.dp)
+            .width(162.dp)
     ) {
         Image(
             painter = painterResource(id = item.image),
             contentDescription = item.title,
-            contentScale = ContentScale.Crop,
+            contentScale = ContentScale.FillBounds,
             modifier = Modifier
                 .padding(bottom = 12.dp)
                 .fillMaxWidth()
-                .height(106.dp)
+                .height(140.dp)
                 .clip(RoundedCornerShape(20.dp))
         )
         //menggabungkan text title dan year
