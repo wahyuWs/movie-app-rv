@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -38,9 +39,12 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -54,6 +58,7 @@ import com.home.moviesappjc.ui.model.Movie
 import com.home.moviesappjc.ui.theme.ColorBackground
 import com.home.moviesappjc.ui.theme.Linear
 import com.home.moviesappjc.ui.theme.SearchColor
+import com.home.moviesappjc.ui.theme.TextColorDetail
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
@@ -411,11 +416,22 @@ fun ListMovie(items: List<Movie>, fontFamily: FontFamily) {
                         .padding(bottom = 8.dp)
                         .clip(RoundedCornerShape(20.dp))
                 )
+                //menggabungkan text title dan year
+                val title = buildAnnotatedString {
+                    withStyle(style = SpanStyle(Color.White)) {
+                        append(item.title)
+                    }
+                    append(" ")
+                    withStyle(style = SpanStyle(TextColorDetail)) {
+                        append(item.year)
+                    }
+                }
                 Text(
-                    text = item.title,
+                    text = title,
                     fontSize = 16.sp,
                     fontFamily = fontFamily,
-                    color = Color.White
+                    color = Color.White,
+                    modifier = Modifier.padding(end = 4.dp)
                 )
             }
         }

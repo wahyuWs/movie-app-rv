@@ -37,9 +37,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -77,15 +80,18 @@ fun PreviewDetail() {
             items = listOf(
                 Movie(
                     image = R.drawable.star_wars_the_rise_of_skywalker_2019,
-                    title = "Star Wars: The Rise of Skywalker (2019)"
+                    title = "Star Wars: The Rise of Skywalker",
+                    year = "(2019)"
                 ),
                 Movie(
                     image = R.drawable.star_wars_the_force_awakens_2015,
-                    title = "Star Wars: The Force Awakens (2015)"
+                    title = "Star Wars: The Force Awakens",
+                    year = "(2015)"
                 ),
                 Movie(
                     image = R.drawable.rogue_one_a_star_wars_story_2016,
-                    title = "Rogue One: A Star Wars Story (2016)"
+                    title = "Rogue One: A Star Wars Story",
+                    year = "(2016)"
                 ),
             )
         )
@@ -372,8 +378,18 @@ fun ItemRelatedMovie(item: Movie, fontFamily: FontFamily) {
                 .height(106.dp)
                 .clip(RoundedCornerShape(20.dp))
         )
+        //menggabungkan text title dan year
+        val title = buildAnnotatedString {
+            withStyle(style = SpanStyle(Color.White)) {
+                append(item.title)
+            }
+            append(" ")
+            withStyle(style = SpanStyle(TextColorDetail)) {
+                append(item.year)
+            }
+        }
         Text(
-            text = item.title,
+            text = title,
             fontFamily = fontFamily,
             fontSize = 12.sp,
             color = Color.White
