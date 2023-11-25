@@ -22,7 +22,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.*
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,10 +39,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.home.moviesappjc.R
 import com.home.moviesappjc.ui.model.Movie
 import com.home.moviesappjc.ui.theme.ColorBackground
@@ -189,7 +186,7 @@ fun TrendingSection(navController: NavController, items: List<Movie>, fontFamily
             inactiveItemWidth = 270.dp,
             visibleItemCount = 2,
             spaceBetweenItems = 8.dp
-        ) {animationProgress, index, item, size, lazyListState ->
+        ) { animationProgress, _, item, size, lazyListState ->
             ItemListTrending(navController = navController, movie = item, fontFamily = fontFamily, size, animationProgress, lazyListState)
         }
     }
