@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,9 +26,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,40 +62,49 @@ import com.home.moviesappjc.ui.theme.Linear
 import com.home.moviesappjc.ui.theme.MoviesAppJcTheme
 
 class MainActivity : ComponentActivity() {
+    private lateinit var bottomBarVisible: MutableState<Boolean>
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             Box(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
             ) {
                 val navController = rememberNavController()
+                bottomBarVisible = rememberSaveable { mutableStateOf(true) }
+
                 Scaffold(
+                    containerColor = ColorBackground,
                     bottomBar = {
-                        BottomSection(
-                            items = listOf(
-                                BottomItem(
-                                    R.drawable.home_page_icon,
-                                    "home"
+                        AnimatedVisibility(
+                            visible = bottomBarVisible.value
+                        ) {
+                            BottomSection(
+                                items = listOf(
+                                    BottomItem(
+                                        R.drawable.home_page_icon,
+                                        "home"
+                                    ),
+                                    BottomItem(
+                                        R.drawable.play_page_icon,
+                                        "play"
+                                    ),
+                                    BottomItem(
+                                        R.drawable.profile_page_icon,
+                                        "profile"
+                                    ),
                                 ),
-                                BottomItem(
-                                    R.drawable.play_page_icon,
-                                    "play"
-                                ),
-                                BottomItem(
-                                    R.drawable.profile_page_icon,
-                                    "profile"
-                                ),
-                            ),
-                            modifier = Modifier
-                                .align(Alignment.BottomCenter)
-                                .fillMaxWidth(),
-                            navController = navController,
-                            onClick = {
-                                navController.navigate(it.route)
-                            }
-                        )
+                                modifier = Modifier
+                                    .align(Alignment.BottomCenter)
+                                    .fillMaxWidth(),
+                                navController = navController,
+                                onClick = {
+                                    navController.navigate(it.route)
+                                }
+                            )
+                        }
                     }
                 ) {
                     Navigation(navController = navController)
@@ -104,6 +117,7 @@ class MainActivity : ComponentActivity() {
     fun Navigation(navController: NavHostController) {
         NavHost(navController = navController, startDestination = "home") {
             composable("home") {
+                bottomBarVisible.value = true
                 HomeScreen(navController)
             }
             composable("play") {
@@ -124,6 +138,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
             composable("DetailScreen") {
+                bottomBarVisible.value = false
                 Detail()
             }
         }
@@ -143,45 +158,48 @@ class MainActivity : ComponentActivity() {
             tonalElevation = 4.dp,
             contentColor = Color.Transparent
         ) {
-            items.forEachIndexed { index, item ->
-                val selected = item.route == backStackEntry.value?.destination?.route
-                NavigationBarItem(
-                    selected = selected,
-                    onClick = { onClick(item) },
-                    icon = {
-                        if (index == 1) {
-                            Box(
-                                modifier = Modifier
-                                    .clip(CircleShape)
-                                    .size(38.dp)
-                                    .background(ItemMenuUnSelected)
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = item.icon),
-                                    contentDescription = null,
-                                    tint = Color.White,
-                                    modifier = Modifier
-                                        .size(14.dp)
-                                        .align(Alignment.Center)
-                                )
-                            }
-                        } else {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 4.dp),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                items.forEachIndexed { index, item ->
+                    val selected = item.route == backStackEntry.value?.destination?.route
+                    if (index == 1) {
+                        Box(
+                            modifier = Modifier
+                                .clip(CircleShape)
+                                .background(if (selected) ItemMenuSelected else ItemMenuUnSelected)
+                                .padding(13.dp)
+                                .clickable {
+                                    onClick(item)
+                                }
+                        ) {
                             Icon(
                                 painter = painterResource(id = item.icon),
                                 contentDescription = null,
+                                tint = Color.White,
                                 modifier = Modifier
-                                    .size(32.dp)
+                                    .size(14.dp)
+                                    .align(Alignment.Center)
                             )
                         }
-                    },
-                    colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = ItemMenuSelected,
-                        unselectedIconColor = ItemMenuUnSelected,
-                        indicatorColor = ColorBackground
-                    )
-                )
+                    } else {
+                        Icon(
+                            painter = painterResource(id = item.icon),
+                            contentDescription = null,
+                            tint = if (selected) ItemMenuSelected else ItemMenuUnSelected,
+                            modifier = Modifier
+                                .size(32.dp)
+                                .clickable {
+                                    onClick(item)
+                                }
+                        )
+                    }
+                }
             }
-
         }
     }
 }
