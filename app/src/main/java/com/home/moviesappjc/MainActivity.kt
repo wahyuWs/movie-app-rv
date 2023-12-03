@@ -34,6 +34,7 @@ import androidx.navigation.compose.rememberNavController
 import com.home.moviesappjc.ui.model.BottomItem
 import com.home.moviesappjc.ui.navigation.Detail
 import com.home.moviesappjc.ui.navigation.HomeScreen
+import com.home.moviesappjc.ui.navigation.HomeScreenResponsive
 import com.home.moviesappjc.ui.navigation.Play
 import com.home.moviesappjc.ui.theme.ColorBackground
 import com.home.moviesappjc.ui.theme.ItemMenuSelected
@@ -96,7 +97,7 @@ class MainActivity : ComponentActivity() {
         NavHost(navController = navController, startDestination = "home") {
             composable("home") {
                 bottomBarVisible.value = true
-                HomeScreen(navController)
+                HomeScreenResponsive(navController)
             }
             composable("play") {
                 Play()
@@ -138,8 +139,7 @@ class MainActivity : ComponentActivity() {
         ) {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 4.dp),
+                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceAround,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -150,7 +150,7 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier
                                 .clip(CircleShape)
                                 .background(if (selected) ItemMenuSelected else ItemMenuUnSelected)
-                                .padding(13.dp)
+                                .padding(8.dp)
                                 .clickable {
                                     onClick(item)
                                 }

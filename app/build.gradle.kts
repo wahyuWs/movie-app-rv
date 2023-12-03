@@ -75,4 +75,6 @@ dependencies {
     //tablayoutwithpager
     implementation("com.google.accompanist:accompanist-pager:0.13.0")
     implementation("com.google.accompanist:accompanist-pager-indicators:0.13.0")
+    //constraintlayout
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
 }
